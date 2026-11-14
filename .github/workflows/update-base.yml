@@ -1,0 +1,53 @@
+# Chaque lundi : passer à la dernière version du socle, construire la machine
+# de Marie en entier, et publier le flake.lock seulement si la construction réussit.
+# Le MacBook récupère ensuite cette version tout seul (mise à jour quotidienne).
+name: Mise à jour du socle
+
+on:
+  schedule:
+    - cron: "17 4 * * 1" # lundi 04:17 UTC (le socle se met à jour le dimanche)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  MACHINE: macbook-marie
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Libérer de la place sur le runner
+        run: sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+
+      - uses: cachix/install-nix-action@v31
+
+      - name: Passer à la dernière version du socle
+        run: nix flake update base
+
+      - name: Y a-t-il du nouveau ?
+        id: diff
+        run: |
+          if git diff --quiet flake.lock; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Construction complète : elle compile aussi le pilote Wi-Fi pour le
+      # nouveau noyau. Si elle échoue, rien n'est publié et le MacBook garde
+      # sa version actuelle.
+      - name: Construire la machine
+        if: steps.diff.outputs.changed == 'true'
+        run: nix build --no-link --print-build-logs ".#nixosConfigurations.${MACHINE}.config.system.build.toplevel"
+
+      - name: Publier
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "Socle mis à jour ($(date -I))"
+          git push
