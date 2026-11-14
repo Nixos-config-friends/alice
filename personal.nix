@@ -1,10 +1,10 @@
-# Tout ce qui est propre à Marie et à son MacBook.
-{ pkgs, ... }:
+# Tout ce qui est propre à Alice et à son MacBook.
+{ config, pkgs, ... }:
 {
   relatives = {
-    user = "marie";
-    fullName = "Marie";
-    flake = "github:VOTRE-COMPTE/nixos-marie";
+    user = "alice";
+    fullName = "Alice";
+    flake = "github:Nixos-config-friends/alice";
 
     # Compte administrateur local, pour intervenir sur place si besoin.
     # Aucun accès à distance n'est possible (pas de serveur SSH).
@@ -28,7 +28,7 @@
     backup = {
       enable = false; # passer à true une fois la Storage Box prête (voir README)
       # Chemin relatif = dans le dossier personnel de la Storage Box.
-      repository = "sftp:uXXXXXX@uXXXXXX.your-storagebox.de:sauvegardes/macbook-marie";
+      repository = "sftp:uXXXXXX@uXXXXXX.your-storagebox.de:sauvegardes/macbook-alice";
     };
   };
 
@@ -45,7 +45,7 @@
     gimp
   ];
 
-  home-manager.users.marie = import ./home.nix;
+  home-manager.users.${config.relatives.user} = import ./home.nix;
 
   # Version de NixOS au moment de l'INSTALLATION. Ne jamais la changer ensuite,
   # même en passant à une nouvelle version de NixOS.

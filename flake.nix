@@ -1,14 +1,14 @@
 {
-  description = "NixOS de Marie (MacBook Air 13 pouces, 2017)";
+  description = "NixOS de Alice (MacBook Air 13 pouces, 2017)";
 
   # Le socle fixe nixpkgs, Home Manager, etc. : pas d'autre entrée ici.
-  inputs.base.url = "github:VOTRE-COMPTE/nixos-proches";
+  inputs.base.url = "github:Nixos-config-friends/nixos-base";
 
   outputs =
     { base, ... }:
     {
-      nixosConfigurations.macbook-marie = base.lib.mkHost {
-        hostname = "macbook-marie";
+      nixosConfigurations.macbook-alice = base.lib.mkHost {
+        hostname = "macbook-alice";
         modules = [
           ./hardware-configuration.nix
           ./personal.nix

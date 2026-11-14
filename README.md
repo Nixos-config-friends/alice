@@ -1,7 +1,7 @@
-# nixos-marie
+# alice
 
-Configuration NixOS du MacBook Air (13 pouces, 2017) de Marie.
-Elle s'appuie sur le socle [`nixos-proches`](https://github.com/VOTRE-COMPTE/nixos-proches)
+Configuration NixOS du MacBook Air (13 pouces, 2017) de Alice.
+Elle s'appuie sur le socle [`nixos-base`](https://github.com/Nixos-config-friends/nixos-base)
 et ne contient que ce qui lui est propre.
 
 **Comment ça marche** : personne ne se connecte au MacBook. Chaque jour vers
@@ -12,7 +12,6 @@ Tout changement est daté dans l'historique de ce dépôt.
 
 ## Avant de commencer
 
-- Remplacer `VOTRE-COMPTE` dans `flake.nix`, `personal.nix` et ce README.
 - Le dépôt doit être **public** (le MacBook le lit sans identifiant ; aucun secret n'y est stocké).
 - Préparer :
   - une clé USB avec l'image graphique de NixOS (GNOME) ;
@@ -27,22 +26,22 @@ Tout changement est daté dans l'historique de ce dépôt.
 2. Brancher l'Ethernet ou le partage de connexion.
 3. Dans l'installeur :
    - langue français, clavier **Français (Macintosh)** ;
-   - effacer le disque, **cocher le chiffrement** : c'est Marie qui tape la phrase
+   - effacer le disque, **cocher le chiffrement** : c'est Alice qui tape la phrase
      de passe du disque (elle la retapera à chaque démarrage) ;
    - créer le compte **`depannage`** (le compte administrateur, avec votre mot de passe).
-     Le compte `marie` sera créé par la configuration.
+     Le compte `alice` sera créé par la configuration.
 4. Redémarrer, se connecter en `depannage`, puis :
    ```sh
    nix-shell -p git
-   git clone https://github.com/VOTRE-COMPTE/nixos-marie && cd nixos-marie
+   git clone https://github.com/Nixos-config-friends/alice && cd alice
    cp /etc/nixos/hardware-configuration.nix .     # remplace l'exemple
    git add hardware-configuration.nix              # un flake ne voit que les fichiers suivis par git
    sudo env NIX_CONFIG="experimental-features = nix-command flakes" \
-     nixos-rebuild switch --flake .#macbook-marie
+     nixos-rebuild switch --flake .#macbook-alice
    ```
-5. Faire choisir son mot de passe à Marie (c'est elle qui le tape) :
+5. Faire choisir son mot de passe à Alice (c'est elle qui le tape) :
    ```sh
-   sudo passwd marie
+   sudo passwd alice
    ```
 6. Publier le vrai `hardware-configuration.nix` et le `flake.lock` sur GitHub
    (depuis le MacBook avec un jeton, ou en copiant les deux fichiers sur votre machine).
@@ -72,9 +71,9 @@ sudo install -d -m 700 /etc/nixos-secrets
   sudo ssh -p 23 uXXXXXX@uXXXXXX.your-storagebox.de ls   # accepter l'empreinte du serveur
   ```
   Rappel : avec ce mot de passe, vous pouvez lire ce qui est sauvegardé hors du coffre.
-  Le coffre Cryptomator, lui, reste chiffré avec le mot de passe de Marie.
+  Le coffre Cryptomator, lui, reste chiffré avec le mot de passe de Alice.
 
-## Avec Marie
+## Avec Alice
 
 - **Cryptomator** : c'est elle qui crée son coffre et choisit le mot de passe, sans vous.
   Lui faire noter ce mot de passe sur papier : s'il est perdu, personne ne peut l'ouvrir.

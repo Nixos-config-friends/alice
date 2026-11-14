@@ -1,4 +1,4 @@
-# Home Manager pour le compte de Marie.
+# Home Manager pour le compte de Alice.
 # Rappel : ce qui est déclaré ici est réimposé à chaque mise à jour, et les
 # fichiers gérés deviennent en lecture seule. N'y mettre que ce qu'on veut figer.
 { ... }:
