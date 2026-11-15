@@ -15,8 +15,8 @@
 
     hardware.oldMac = {
       enable = true; # Wi-Fi Broadcom, ventilateurs, clavier Apple FR
-      webcam = false; # passer à true si elle fait des visios, puis tester
-      swapCtrlCmd = false; # true pour garder ⌘C / ⌘V : à essayer avec elle
+      webcam = true; # webcam FaceTime HD : à tester sur la machine
+      swapCtrlCmd = true; # Ctrl et ⌘ inversés : elle garde ⌘C / ⌘V comme sur Mac
     };
 
     autoUpgrade = {
@@ -24,19 +24,7 @@
       # Créer ce fichier sur la machine (voir README), sinon mettre null.
       pingUrlFile = "/etc/nixos-secrets/healthchecks-url";
     };
-
-    backup = {
-      enable = false; # passer à true une fois la Storage Box prête (voir README)
-      # Chemin relatif = dans le dossier personnel de la Storage Box.
-      repository = "sftp:uXXXXXX@uXXXXXX.your-storagebox.de:sauvegardes/macbook-alice";
-    };
   };
-
-  # Hetzner Storage Box : SSH sur le port 23.
-  programs.ssh.extraConfig = ''
-    Host *.your-storagebox.de
-      Port 23
-  '';
 
   # Ses applis en plus de celles du socle
   environment.systemPackages = with pkgs; [

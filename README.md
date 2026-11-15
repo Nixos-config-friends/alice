@@ -61,18 +61,6 @@ sudo install -d -m 700 /etc/nixos-secrets
   ```
   Sans ce fichier, mettre `autoUpgrade.pingUrlFile = null;` dans `personal.nix`.
 
-- **Sauvegarde restic** (quand vous l'activez dans `personal.nix`) :
-  ```sh
-  # Mot de passe du dépôt restic : à garder aussi dans votre gestionnaire de mots de passe
-  sudo sh -c 'umask 077; head -c 32 /dev/urandom | base64 > /etc/nixos-secrets/restic-password'
-  # Clé SSH de root pour la Storage Box Hetzner
-  sudo ssh-keygen -t ed25519 -N "" -f /root/.ssh/id_ed25519
-  sudo ssh-copy-id -p 23 -s uXXXXXX@uXXXXXX.your-storagebox.de
-  sudo ssh -p 23 uXXXXXX@uXXXXXX.your-storagebox.de ls   # accepter l'empreinte du serveur
-  ```
-  Rappel : avec ce mot de passe, vous pouvez lire ce qui est sauvegardé hors du coffre.
-  Le coffre Cryptomator, lui, reste chiffré avec le mot de passe de Alice.
-
 ## Avec Alice
 
 - **Cryptomator** : c'est elle qui crée son coffre et choisit le mot de passe, sans vous.
@@ -93,8 +81,8 @@ sudo install -d -m 700 /etc/nixos-secrets
 - [ ] Un cycle complet : modifier `personal.nix`, pousser, vérifier que le MacBook l'applique
       (en `depannage` : `sudo systemctl start nixos-upgrade`, puis `journalctl -u nixos-upgrade`)
 - [ ] Le retour à une version précédente depuis le menu de démarrage
-- [ ] La webcam, si `webcam = true`
-- [ ] Une restauration depuis la sauvegarde, si elle est activée
+- [ ] La webcam (par ex. un appel de test dans Zoom ou Google Meet)
+- [ ] ⌘C / ⌘V / ⌘Z dans Firefox et LibreOffice (touches Ctrl et ⌘ inversées)
 
 ## Au quotidien
 
